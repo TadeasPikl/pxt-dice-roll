@@ -75,12 +75,18 @@ function displayNum(num: number) {
     
 }
 
-input.onButtonPressed(Button.A, function on_button_pressed_a() {
-    for (let i = 0; i < 10; i++) {
-        displayNum(randint(0, 6))
-        basic.pause(25)
+input.onGesture(Gesture.Shake, function on_gesture_shake() {
+    let i: number;
+    let rollNum: number;
+    for (i = 0; i < 10; i++) {
+        rollNum = randint(0, 6)
+        displayNum(rollNum)
+        basic.pause(20)
     }
-    music.playTone(Note.C, music.beat())
+    for (i = 0; i < rollNum; i++) {
+        music.playTone(Note.C, 250)
+        music.rest(250)
+    }
 })
 basic.forever(function on_forever() {
     

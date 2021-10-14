@@ -63,10 +63,13 @@ def displayNum(num):
     elif num == 6:
         num6()
 
-def on_button_pressed_a():
+def on_gesture_shake():
     for i in range(10):
-        displayNum(randint(0, 6))
-        basic.pause(25)
-    music.play_tone(Note.C, music.beat())
-input.on_button_pressed(Button.A, on_button_pressed_a)
+        rollNum = randint(0, 6)
+        displayNum(rollNum)
+        basic.pause(20)
+    for i in range(rollNum):
+        music.play_tone(Note.C, 250)
+        music.rest(250)
+input.on_gesture(Gesture.SHAKE, on_gesture_shake)
 basic.forever(on_forever)
