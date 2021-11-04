@@ -81,6 +81,9 @@ def num10():
     . # . # .
     # . . . #
     """)
+def numHigh(higherNum):
+    basic.show_number(higherNum)
+
 def clearScreen():
     basic.show_leds("""
     # # # # #
@@ -114,31 +117,40 @@ def displayNum(num):
         num9()
     elif num == 10:
         num10()
+    elif num > 10:
+        numHigh(num)
 
-def on_logo_event_pressed():
+def on_button_pressed_a():
     global sides
-    if sides == 10:
-        sides = 6
-        num6()
-    else:
-        sides = 10
-        num10()
+    if sides > 1:
+        sides = sides - 1
+    displayNum(sides)
+def on_button_pressed_b():
+    global sides
+    if sides < 32:
+        sides = sides + 1
+    displayNum(sides)
 
 def on_gesture_shake():
-    for i in range(10):
+    if sides > 10:
         rollNum = randint(1, sides)
         displayNum(rollNum)
-        basic.pause(10)
+    else:
+        for i in range(10):
+            rollNum = randint(1, sides)
+            displayNum(rollNum)
+            basic.pause(10)
     
     for i in range(rollNum):
         music.play_tone(Note.C, 250)
         music.rest(250)
     while True:
-        if input.button_is_pressed(Button.A):
+        if input.logo_is_pressed():
             clearScreen()
             break
 
 sides = 6
-input.on_logo_event(TouchButtonEvent.PRESSED, on_logo_event_pressed)
+input.on_button_pressed(Button.A, on_button_pressed_a)
+input.on_button_pressed(Button.B, on_button_pressed_b)
 input.on_gesture(Gesture.SHAKE, on_gesture_shake)
 basic.forever(on_forever)

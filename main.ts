@@ -98,6 +98,10 @@ function num10() {
     `)
 }
 
+function numHigh(higherNum: number) {
+    basic.showNumber(higherNum)
+}
+
 function clearScreen() {
     basic.showLeds(`
     # # # # #
@@ -132,36 +136,49 @@ function displayNum(num: number) {
         num9()
     } else if (num == 10) {
         num10()
+    } else if (num > 10) {
+        numHigh(num)
     }
     
 }
 
 let sides = 6
-input.onLogoEvent(TouchButtonEvent.Pressed, function on_logo_event_pressed() {
+input.onButtonPressed(Button.A, function on_button_pressed_a() {
     
-    if (sides == 10) {
-        sides = 6
-        num6()
-    } else {
-        sides = 10
-        num10()
+    if (sides > 1) {
+        sides = sides - 1
     }
     
+    displayNum(sides)
+})
+input.onButtonPressed(Button.B, function on_button_pressed_b() {
+    
+    if (sides < 32) {
+        sides = sides + 1
+    }
+    
+    displayNum(sides)
 })
 input.onGesture(Gesture.Shake, function on_gesture_shake() {
-    let i: number;
     let rollNum: number;
-    for (i = 0; i < 10; i++) {
+    let i: number;
+    if (sides > 10) {
         rollNum = randint(1, sides)
         displayNum(rollNum)
-        basic.pause(10)
+    } else {
+        for (i = 0; i < 10; i++) {
+            rollNum = randint(1, sides)
+            displayNum(rollNum)
+            basic.pause(10)
+        }
     }
+    
     for (i = 0; i < rollNum; i++) {
         music.playTone(Note.C, 250)
         music.rest(250)
     }
     while (true) {
-        if (input.buttonIsPressed(Button.A)) {
+        if (input.logoIsPressed()) {
             clearScreen()
             break
         }
