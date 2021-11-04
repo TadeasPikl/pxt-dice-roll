@@ -128,7 +128,7 @@ def on_gesture_shake():
     for i in range(10):
         rollNum = randint(1, sides)
         displayNum(rollNum)
-        basic.pause(20)
+        basic.pause(10)
     
     for i in range(rollNum):
         music.play_tone(Note.C, 250)

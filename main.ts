@@ -154,7 +154,7 @@ input.onGesture(Gesture.Shake, function on_gesture_shake() {
     for (i = 0; i < 10; i++) {
         rollNum = randint(1, sides)
         displayNum(rollNum)
-        basic.pause(20)
+        basic.pause(10)
     }
     for (i = 0; i < rollNum; i++) {
         music.playTone(Note.C, 250)
